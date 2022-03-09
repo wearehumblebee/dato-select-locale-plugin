@@ -1,7 +1,8 @@
 import { RenderFieldExtensionCtx } from 'datocms-plugin-sdk';
 import { Canvas, Form } from 'datocms-react-ui';
 import { useState,  useEffect } from 'react';
-import Selector from '../../components/LocaleSelector';
+import Selector from '../../components/Selector';
+import s from './styles.module.css';
 
 type Props = {
   ctx: RenderFieldExtensionCtx;
@@ -29,7 +30,7 @@ export default function LocaleSelector({ ctx }: Props) {
 
   return (
     <Canvas ctx={ctx}>
-      <Form>
+      <Form className={s['form']}>
         <Selector options={ctx.site.attributes.locales} selectedOption={selectedLocale} changeLocale={changeLocale}/>
       </Form>
     </Canvas>
