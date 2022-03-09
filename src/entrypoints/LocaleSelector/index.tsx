@@ -1,6 +1,7 @@
 import { RenderFieldExtensionCtx } from 'datocms-plugin-sdk';
-import { Canvas, SelectInput, Form } from 'datocms-react-ui';
+import { Canvas, Form } from 'datocms-react-ui';
 import { useState,  useEffect } from 'react';
+import Selector from '../../components/LocaleSelector';
 import s from './styles.module.css';
 
 type Props = {
@@ -20,20 +21,6 @@ export default function LocaleSelector({ ctx }: Props) {
     }
   },[selectedLocale, ctx.formValues, ctx.fieldPath])
 
-  /**
-   * @desc Transform string[] locales to Option[] for select input
-   * @param locales
-   * @returns
-   */
-  const transformLocales = (locales: string[]):Array<{ value: string; label: string }> => {
-    return locales.reduce((acc, locale) => {
-      acc.push({value:locale,label:locale});
-      return acc;
-    }, [] as Array<{ value: string; label: string }>)
-  }
-
-  const options = transformLocales(ctx.site.attributes.locales);
-
   const changeLocale = (value:string) => {
     if(value){
       ctx.setFieldValue(ctx.field.attributes.api_key, value);
@@ -44,14 +31,7 @@ export default function LocaleSelector({ ctx }: Props) {
   return (
     <Canvas ctx={ctx}>
       <Form className={s['form']}>
-      <SelectInput
-        options={options}
-        value={options.find((o) => o.value === selectedLocale)}
-        isDisabled={false}
-        onChange={(o) => {
-          changeLocale(o?.value || defaultLocale);
-        }}
-      />
+        <Selector options={ctx.site.attributes.locales} selectedOption={selectedLocale} changeLocale={changeLocale}/>
       </Form>
     </Canvas>
   );
