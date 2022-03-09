@@ -1,10 +1,22 @@
-import { connect } from 'datocms-plugin-sdk';
+import { connect, RenderFieldExtensionCtx} from 'datocms-plugin-sdk';
 import { render } from './utils/render';
-import ConfigScreen from './entrypoints/ConfigScreen';
+import LocaleSelector  from "./entrypoints/LocaleSelector"
 import 'datocms-react-ui/styles.css';
 
 connect({
-  renderConfigScreen(ctx) {
-    return render(<ConfigScreen ctx={ctx} />);
+  manualFieldExtensions() {
+    return [
+      {
+        id: 'countrySelector',
+        name: 'Select locale',
+        type: 'editor',
+        fieldTypes: ['string'],
+      },
+    ];
   },
+    renderFieldExtension(fieldExtensionId: string, ctx: RenderFieldExtensionCtx) {
+      if(fieldExtensionId === "countrySelector"){
+        return render(<LocaleSelector ctx={ctx}/>);
+      }
+    },
 });
